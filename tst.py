@@ -336,7 +336,6 @@ class GoFish(Root, tk.Frame):
                 def button_func(arg1):
                     pyvar.set(arg1)
                     self._choice = arg1
-                    # print(self._choice)
                     self.selected_player = arg1
                     self.rank_button_state(state=NORMAL)
 
