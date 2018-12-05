@@ -244,8 +244,6 @@ class GoFish(tk.Frame):
         exit()
 
 
-
-
 if __name__ == "__main__":
     root = Root()
     menu = MainMenu(root)
