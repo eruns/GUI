@@ -1,3 +1,10 @@
+""" other links
+
+https://pypi.org/project/blinker/
+https://www.mattlayman.com/blog/2015/blinker/
+"""
+# This example: https://pythonadventures.wordpress.com/tag/blinker/
+
 from blinker import signal
 class One:
     def __init__(self):
