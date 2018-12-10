@@ -268,7 +268,7 @@ class Game(object):
         self._hands = []
         self._deck = []
         self._empty_hands = 0
-        self._active = None
+        self._active = 0
         self._sort = Sort.SUITTHENRANKD
 
 
@@ -326,6 +326,7 @@ class Game(object):
                     same_player = True
                     self._active = self.hands[hand][0]
                     while same_player == True:
+                        self.active_hand(hand)
                         print("you: %s" % hand)
                         choice = self.choose_hand(hand)
                         self.hands[hand][0].visi_override()
@@ -338,14 +339,18 @@ class Game(object):
 
                     if self.empty_hands == self.hand_count:
                         wincondition = True
+            return hand
         except Exception as ex:
             print(ex)
 
 
 
-    def choose_hand(self, active):
+    def choose_hand(self, active, choice):
         """Gets the hand the player would like to request a card from
 
+        AEGUMENTS
+            active - self.hand
+            choice - index of hand
         RETURNS
             name (string): the name of the hand to be asked
 
@@ -361,6 +366,7 @@ class Game(object):
             hand = "hands%s" % choice
             if hand in active:
                 print(ValueError("Cannot ask yourself for a card"))
+                # return False
 
             elif self._hands[hand]:
                 ask = False
@@ -368,6 +374,8 @@ class Game(object):
 
             else:
                 print(ValueError("Cannot ask for a hand which does not exist"))
+                return False
+
 
 
 def main():

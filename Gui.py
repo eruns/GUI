@@ -81,9 +81,14 @@ class GoFish(tk.Frame):
 
         self.pack(fill="both", expand=1)
         self.players = self.player_select_window
+        self.game = Game(hand_size=5,
+                         hand_count=self.player_count,
+                         max_hand_size=52,
+                         discard_type=Visibility.INVISIBLE,
+                         ace_rank=Rank.ACELOW)
         self.reveal_button()
         # self.player_turn()
-        self.player_score()
+        self.player_scores()
         # self.game = Game(hand_size=5, hand_count=self.player_count, max_hand_size=52, discard_type=Visibility.INVISIBLE,
         #             ace_rank=Rank.ACELOW)
         self.choose_player()
@@ -137,6 +142,20 @@ class GoFish(tk.Frame):
         #     hnd.place(x=300, y=600)
         # else:
         #     pass
+    def player_scores(self):
+        """Shows current players score"""
+        title = tk.Label(self, text=self.player_count, font=("Helvetica", 16))
+        title.place(x=300, y=50)
+        xx = 100
+        count = 1
+        for hand in self.game.hands:
+            xx = xx + 85
+
+            player_points = self.game.hands[hand][1]
+            player_label = tk.Label(self, text="player: "+ str(count) + ": " + str(player_points), relief=tk.RAISED)
+
+            player_label.place(x=xx, y=100)
+            count = count + 1
 
     def choose_player(self):
 
@@ -153,9 +172,15 @@ class GoFish(tk.Frame):
 
     def submit_player(self, p_value):
         self.selected_player = p_value
-        print(self.selected_player)
+        print(self.game.active_hand)
+        # exit(0)
+
         self.rank_button_state(state=NORMAL)
         # self.choose_hand(hand)
+        print('xxxx: ' + str(self.game.hands['hands'+str(self.game.active_hand)][0].visi_override()))
+        exit(0)
+        selected_player_hand = self.game.choose_hand(self.game.hands['hands'+str(self.game.active_hand)][0], p_value)
+        print( 'selected_player_hand: ' + str(selected_player_hand))
         return(self.selected_player)
 
     def choose_rank(self):
@@ -190,49 +215,49 @@ class GoFish(tk.Frame):
         title = tk.Label(self, text="Player's Scores:", font=("Helvetica", 16))
         title.place(x=300, y=50)
 
-    def player_score(self):
-        title = tk.Label(self, text=self.player_count, font=("Helvetica", 16))
-        title.place(x=300, y=50)
-
-        players = 2
-
-        if players == 2:
-            player_1_points = 1
-            player_2_points = 1
-
-            player_1 = tk.Label(self, text="player 1: " + str(player_1_points), relief=tk.RAISED)
-            player_1.place(x=300, y=100)
-            player_2 = tk.Label(self, text="player 2: " + str(player_2_points), relief=tk.RAISED)
-            player_2.place(x=450, y=100)
-
-        elif players == 3:
-            player_1_points = 1
-            player_2_points = 1
-            player_3_points = 1
-
-            player_1 = tk.Label(self, text="player 1:" + str(player_1_points), relief=tk.RAISED)
-            player_1.place(x=300, y=100)
-            player_2 = tk.Label(self, text="player 2: " + str(player_2_points), relief=tk.RAISED)
-            player_2.place(x=450, y=100)
-            player_3 = tk.Label(self, text="player 3: " + str(player_3_points), relief=tk.RAISED)
-            player_3.place(x=600, y=100)
-
-        elif players == 4:
-            player_1_points = 1
-            player_2_points = 1
-            player_3_points = 1
-            player_4_points = 1
-
-            player_1 = tk.Label(self, text="player 1: " + str(player_1_points), relief=tk.RAISED)
-            player_1.place(x=300, y=100)
-            player_2 = tk.Label(self, text="player 2: " + str(player_2_points), relief=tk.RAISED)
-            player_2.place(x=450, y=100)
-            player_3 = tk.Label(self, text="player 3: " + str(player_3_points), relief=tk.RAISED)
-            player_3.place(x=600, y=100)
-            player_4 = tk.Label(self, text="player 4: " + str(player_4_points), relief=tk.RAISED)
-            player_4.place(x=750, y=100)
-        else:
-            pass
+    # def player_score(self):
+    #     title = tk.Label(self, text=self.player_count, font=("Helvetica", 16))
+    #     title.place(x=300, y=50)
+    #
+    #     players = 2
+    #
+    #     if players == 2:
+    #         player_1_points = 1
+    #         player_2_points = 1
+    #
+    #         player_1 = tk.Label(self, text="player 1: " + str(player_1_points), relief=tk.RAISED)
+    #         player_1.place(x=300, y=100)
+    #         player_2 = tk.Label(self, text="player 2: " + str(player_2_points), relief=tk.RAISED)
+    #         player_2.place(x=450, y=100)
+    #
+    #     elif players == 3:
+    #         player_1_points = 1
+    #         player_2_points = 1
+    #         player_3_points = 1
+    #
+    #         player_1 = tk.Label(self, text="player 1:" + str(player_1_points), relief=tk.RAISED)
+    #         player_1.place(x=300, y=100)
+    #         player_2 = tk.Label(self, text="player 2: " + str(player_2_points), relief=tk.RAISED)
+    #         player_2.place(x=450, y=100)
+    #         player_3 = tk.Label(self, text="player 3: " + str(player_3_points), relief=tk.RAISED)
+    #         player_3.place(x=600, y=100)
+    #
+    #     elif players == 4:
+    #         player_1_points = 1
+    #         player_2_points = 1
+    #         player_3_points = 1
+    #         player_4_points = 1
+    #
+    #         player_1 = tk.Label(self, text="player 1: " + str(player_1_points), relief=tk.RAISED)
+    #         player_1.place(x=300, y=100)
+    #         player_2 = tk.Label(self, text="player 2: " + str(player_2_points), relief=tk.RAISED)
+    #         player_2.place(x=450, y=100)
+    #         player_3 = tk.Label(self, text="player 3: " + str(player_3_points), relief=tk.RAISED)
+    #         player_3.place(x=600, y=100)
+    #         player_4 = tk.Label(self, text="player 4: " + str(player_4_points), relief=tk.RAISED)
+    #         player_4.place(x=750, y=100)
+    #     else:
+    #         pass
 
     # def play_game(self):
     #
