@@ -111,13 +111,13 @@ class GoFish(Root, tk.Frame):
         tk.Checkbutton(self, text='blah1', variable=var1)
         var2 = tk.IntVar()
         tk.Checkbutton(self, text='blah2', variable=var2)
-        players = ( 2, 3, 4)
+        players = ( 2, 3, 4, 5)
         xx = 200
         for player in players:
             b = tk.Button(self.master, text= str(player) + ' Players',
                           command=lambda player=player: self.set_player_count(player))
             self.button_list.append(b)
-            xx = xx + 85
+            xx = xx + 65
             b.place(x=xx, y=255)
 
     def init_window(self):
@@ -134,7 +134,8 @@ class GoFish(Root, tk.Frame):
         self.choose_rank()
         self.player_score()
         self.player_turn()
-        # self.choose_player()
+        # self.choose_hand(hand)
+        self.choose_player()
         # self.player_hand()
 
 
@@ -170,7 +171,7 @@ class GoFish(Root, tk.Frame):
         #
         #         player_label.place(x=xx, y=100)
         #         count = count + 1
-        self.play_game()
+        # self.play_game()
         for hand in self.game.hands:
 
             turn = tk.Label(self, text=player, relief=tk.SUNKEN)
@@ -231,7 +232,7 @@ class GoFish(Root, tk.Frame):
         xx = 100
         count = 1
         for hand in self.game.hands:
-            xx = xx + 150
+            xx = xx + 85
 
             player_points = self.game.hands[hand][1]
             player_label = tk.Label(self, text="player: "+ str(count) + ": " + str(player_points), relief=tk.RAISED)
@@ -299,17 +300,17 @@ class GoFish(Root, tk.Frame):
         return (self.selected_rank)
 
 
-    # def choose_player(self):
-    #
-    #     selected_player = tk.StringVar()
-    #     selected_player.set("L")  # initialize
-    #     nx = 300
-    #     for i in range(0, self.player_count):
-    #         player = i
-    #         b = tk.Button(self, text="player " + str(i + 1), command=lambda player=player: self.submit_player(player))
-    #
-    #         nx = nx + 75
-    #         b.place(x=nx, y=150)
+    def choose_player(self):
+
+        selected_player = tk.StringVar()
+        selected_player.set("L")  # initialize
+        nx = 300
+        for i in range(0, self.player_count):
+            player = i
+            b = tk.Button(self, text="player " + str(i + 1), command=lambda player=player: self.submit_player(player))
+
+            nx = nx + 75
+            b.place(x=nx, y=150)
 
     def submit_player(self, p_value):
         """Submits player value."""
@@ -318,6 +319,12 @@ class GoFish(Root, tk.Frame):
         self.rank_button_state(state=NORMAL)
         # self.choose_hand(hand)
         return (self.selected_player)
+
+    def show_players(self):
+        print(self.game.hand)
+        choice = self.choose_hand(self.game.hand)
+
+
 
     def choose_hand(self, active):
         """Gets the hand the player would like to request a card from

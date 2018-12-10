@@ -39,7 +39,7 @@ class Rules(object):
 
         return self._books
 
-    def card_request(self):
+    def card_request(self, request):
 
         """Gets the requested card rank from
         the player.
@@ -48,7 +48,7 @@ class Rules(object):
             request (string): requested card rank.
         """
 
-        request = int(input("Enter a card rank you like to collect (1-13)."))
+        # request = int(input("Enter a card rank you like to collect (1-13)."))
 
         return Rank(request)
 
@@ -158,7 +158,7 @@ class Rules(object):
                             if deck_count < 5:
                                 for i in range(deck_count):
                                     p1.add_card(self.deck.deal())
-                                print("Player turn ended.")
+                                # print("Player turn ended.")
                                 return False
 
                                 """If deck has more than 5 cards."""
@@ -167,17 +167,17 @@ class Rules(object):
                                     p1.add_card(self.deck.deal())
                                 return False
 
-                        print("Player turn ended.")
+                        # print("Player turn ended.")
                         return False
 
-                    print("Player take another turn,")
+                    # print("Player take another turn,")
                     return True
 
             """Answer is GOFISH (p2 does not have the requested card)."""
         else:
             for card in p2.cards:
                 if card.rank == request:
-                    print("Player is cheating.")
+                    # print("Player is cheating.")
                     return True
 
             deck_count = self.check_deck()
@@ -193,14 +193,14 @@ class Rules(object):
                     p1.find_and_remove(request)
                     self._points += 1
                     self._books += 1
-                    print("player gets" + " " + str(self.points) + " " + "points")
-                    print("player take another turn.")
+                    # print("player gets" + " " + str(self.points) + " " + "points")
+                    # print("player take another turn.")
                     return True
 
                     """Player got the requested card from the deck."""
                 elif book != 4 and request == card:
-                    print("Show the card.")
-                    print("p1 take another turn.")
+                    # print("Show the card.")
+                    # print("p1 take another turn.")
                     return True
 
                     """Player has a book."""
@@ -208,17 +208,17 @@ class Rules(object):
                     p1.find_and_remove(request)
                     self._points += 1
                     self._books += 1
-                    print("p1 gets" + " " + str(self.points) + " " + "points")
+                    # print("p1 gets" + " " + str(self.points) + " " + "points")
                     return False
 
                     """No book, No requested card."""
                 else:
-                    print("p1 turn is ended")
+                    # print("p1 turn is ended")
                     return False
 
                 """ Deck is empty."""
             else:
-                print("Deck is empty, players keep playing.")
+                # print("Deck is empty, players keep playing.")
                 return False
 
 
