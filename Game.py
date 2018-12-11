@@ -362,11 +362,14 @@ class Game(object):
         while ask == True:
             for hand in self.hands:
                 print(str(hand) + " = " + str(self.hands[hand][0]) + " --- points = " + str(self.hands[hand][1]))
-            choice = int(input("Enter the index of the hand you would like to ask"))
+            # choice = int(input("Enter the index of the hand you would like to ask"))
             hand = "hands%s" % choice
+            # print(hand)
+            # print(active)
+            # exit(0)
             if hand in active:
                 print(ValueError("Cannot ask yourself for a card"))
-                # return False
+                return -1
 
             elif self._hands[hand]:
                 ask = False
