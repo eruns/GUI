@@ -43,10 +43,8 @@ class GoFish(tk.Frame):
 
         self.button_list = []
 
-
-        quitbutton = tk.Button(self, text="quit", command=quit)
-
-        quitbutton.place(x=0, y=0)
+        # quitbutton = tk.Button(self, text="quit", command=quit)
+        # quitbutton.place(x=0, y=0)
 
 
         var1 = tk.IntVar()
@@ -172,19 +170,36 @@ class GoFish(tk.Frame):
 
     def submit_player(self, p_value):
         self.selected_player = p_value
-        print(self.game.active_hand)
-        # exit(0)
+        # print(self.game.active_hand)
+        # exit(0)self.game.hands
 
         self.rank_button_state(state=NORMAL)
         # self.choose_hand(hand)
-        print('xxxx: ' + str(self.game.hands['hands'+str(self.game.active_hand)][0].visi_override()))
-        exit(0)
-        selected_player_hand = self.game.choose_hand(self.game.hands['hands'+str(self.game.active_hand)][0], p_value)
-        print( 'selected_player_hand: ' + str(selected_player_hand))
+        # h = self.game.hands['hands' + str(self.game.active_hand)]
+        # hnd = h[0].get_hand()
+        # print(hnd)
+        # print('all hsnds: ' + str(hnd))
+        # exit(1)
+        selected_player_hand = self.game.choose_hand('hands' + str(self.game.active_hand), p_value)
+        if selected_player_hand == False:
+            # Hand does not exist
+            message = "Hand does not exist"
+            pass
+        elif selected_player_hand == -1:
+            # Can't ask a card from yourself
+            message = "Can't ask a card from yourself"
+            pass
+        else:
+            message = ""
+            pass
+
+        if message != "":
+            print(message)
+
+        # print( 'selected_player_hand: ' + str(selected_player_hand))
         return(self.selected_player)
 
     def choose_rank(self):
-
         rank_list = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K"]
         select_rank = tk.StringVar()
         select_rank.set(rank_list[0])
@@ -263,7 +278,9 @@ class GoFish(tk.Frame):
     #
 
     def reveal(self):
-        self.player_hand()
+        h = self.game.hands['hands' + str(self.game.active_hand)]
+        hnd = h[0].get_hand()
+        print(hnd)
 
     def quit(self):
         exit()
