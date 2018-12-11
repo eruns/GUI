@@ -217,6 +217,21 @@ class Hand(object):
                 TypeError("TypeError: Either choose the index to remove OR the card to remove, neither chosen"),
                 "Hand.remove_card")
 
+    def get_hand(self):
+        """Overrides the visibility of a hand to allow it to print when needed
+
+        PARAMETERS
+            None
+
+        RETURNS
+            None
+        """
+        self.__sort_cards()
+        temp_list = []
+        for card in self.cards:
+            temp_list.append(str(card.rank)+str(card.suit))
+        return temp_list
+
     def visi_override(self):
         """Overrides the visibility of a hand to allow it to print when needed
 
