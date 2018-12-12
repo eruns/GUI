@@ -8,7 +8,7 @@ class Root(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
 
         self.title("GoFIsh")
-        self.geometry("900x600")
+        self.geometry("700x500")
 
 class MainMenu(tk.Menu):
 
@@ -122,6 +122,8 @@ class GoFish(tk.Frame):
         if self.game.active_hand == self.game.hands['hands' + str(p_value)][0]:
             print("Same Player")
         else:
+            self.game.asked_player_id = p_value
+            self.game.asked_player_hand = self.game.hands['hands' + str(p_value)][0]
             self.game.active_hand.visi_override()
         print(self.game.active_hand.card_count)
         # exit(0)
