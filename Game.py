@@ -254,9 +254,29 @@ class Game(object):
         """
         return self._deck
 
+    @property
+    def active_player_id(self):
+        return self._active_player_id
 
+    @active_player_id.setter
+    def active_player_id(self, id):
+        self._active_player_id = id
 
+    @property
+    def asked_player_id(self):
+        return self._asked_player_id
 
+    @asked_player_id.setter
+    def asked_player_id(self, id):
+        self._asked_player_id = id
+
+    @property
+    def asked_player_hand(self):
+        return self._asked_player_hand
+
+    @asked_player_hand.setter
+    def asked_player_hand(self, hand):
+        self._asked_player_hand = hand
 
     def __init__(self, hand_size=0, hand_count=0, max_hand_size=0, ace_rank=None, discard_type=None, sort=None):
         """Initializes the game object"""
@@ -268,9 +288,12 @@ class Game(object):
         self._hands = []
         self._deck = []
         self._empty_hands = 0
+        self._active_player_id = 0
         self._active = None
         self._sort = Sort.SUITTHENRANKD
-        self.active_player_id = 0
+        self._asked_player_id = 0
+        self._asked_player_hand = None
+        self._asked_card_value = 0
 
         """Instantiating properties"""
         if hand_size != 0 and type(hand_size) == int:
@@ -389,15 +412,15 @@ class Game(object):
 
 
 
-def main():
-
-    game = Game(hand_size=5,
-                hand_count=4,
-                max_hand_size=52,
-                discard_type=Visibility.INVISIBLE,
-                ace_rank=Rank.ACELOW,
-                sort=Sort.RANKTHENSUITA)
-    game.control_players()
+# def main():
+#
+#     game = Game(hand_size=5,
+#                 hand_count=4,
+#                 max_hand_size=52,
+#                 discard_type=Visibility.INVISIBLE,
+#                 ace_rank=Rank.ACELOW,
+#                 sort=Sort.RANKTHENSUITA)
+#     game.control_players()
 
 
 
