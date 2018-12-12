@@ -1,5 +1,6 @@
 *
 .idea/
+.idea
 ErrorLogs/
 venv/
 __pycache__/

@@ -65,15 +65,13 @@ class GoFish(tk.Frame):
 
     def set_player_count(self, player_count):
         self.player_count = player_count
-        self.submit_request()
+        self.submit_player_count_request()
 
-    def submit_request(self):
+    def submit_player_count_request(self):
         tk.Frame.pack_forget(self)
         for button in self.button_list:
             button.destroy()
         self.init_window()
-
-
 
     def init_window(self):
 
@@ -93,53 +91,10 @@ class GoFish(tk.Frame):
         self.choose_rank()
         # self.player_hand()
 
-
-
     def reveal_button(self):
         revealbutton = tk.Button(self, text="reveal", command=self.reveal)
-        revealbutton.place(x=350, y=570)
+        revealbutton.place(x=350, y=370)
 
-    # def player_turn(self):
-    #     player = "p1"
-    #     if player == "p1":
-    #         turn = tk.Label(self, text="player 1", relief=tk.SUNKEN)
-    #         turn.place(x=300, y=575)
-    #     elif player == "p2":
-    #         turn = tk.Label(self, text="player 2", relief=tk.SUNKEN)
-    #         turn.place(x=300, y=575)
-    #     elif player == "p3":
-    #         turn = tk.Label(self, text="player 3", relief=tk.SUNKEN)
-    #         turn.place(x=300, y=575)
-    #     elif player == "p4":
-    #         turn = tk.Label(self, text="player 4", relief=tk.SUNKEN)
-    #         turn.place(x=300, y=575)
-    #     else:
-    #         pass
-
-
-    # def player_hand(self):
-    #     for hand in Game.hands:
-    #         player = Game.hands[hand][0]
-    #     print(player)
-        # player = "p2"
-        # if player == "p1":
-        #     hand = [1, 2, 3, 4, 5]
-        #     hnd = tk.Label(self, text=hand, relief=tk.RAISED)
-        #     hnd.place(x=300, y=600)
-        # elif player == "p2":
-        #     hand = [2, 2, 2, 2, 2]
-        #     hnd = tk.Label(self, text=hand, relief=tk.RAISED)
-        #     hnd.place(x=300, y=600)
-        # elif player == "p3":
-        #     hand = [8, 8, 9, 6, 7]
-        #     hnd = tk.Label(self, text=hand, relief=tk.RAISED)
-        #     hnd.place(x=300, y=600)
-        # elif player == "p4":
-        #     hand = [7, 7, 7, 7, 7]
-        #     hnd = tk.Label(self, text=hand, relief=tk.RAISED)
-        #     hnd.place(x=300, y=600)
-        # else:
-        #     pass
     def player_scores(self):
         """Shows current players score"""
         title = tk.Label(self, text=self.player_count, font=("Helvetica", 16))
@@ -155,31 +110,21 @@ class GoFish(tk.Frame):
             player_label.place(x=xx, y=100)
             count = count + 1
 
-    def choose_player(self):
-
-        selected_player = tk.StringVar()
-        selected_player.set("L")  # initialize
-        nx = 300
-        for i in range(0, self.player_count):
-            player = i
-            b = tk.Button(self, text="player " + str(i+1), command=lambda player=player: self.submit_player(player))
-
-            nx = nx + 75
-            b.place(x=nx, y=150)
-
-
     def submit_player(self, p_value):
         self.selected_player = p_value
-        # print(self.game.active_hand)
-        # exit(0)self.game.hands
 
         self.rank_button_state(state=NORMAL)
-        # self.choose_hand(hand)
-        # h = self.game.hands['hands' + str(self.game.active_hand)]
-        # hnd = h[0].get_hand()
-        # print(hnd)
-        # print('all hsnds: ' + str(hnd))
-        # exit(1)
+
+        if self.game.active_hand == None:
+            self.game.active_player_id = 0
+            self.game.active_hand = self.game.hands['hands' + str(self.game.active_player_id)][0]
+
+        if self.game.active_hand == self.game.hands['hands' + str(p_value)][0]:
+            print("Same Player")
+        else:
+            self.game.active_hand.visi_override()
+        print(self.game.active_hand.card_count)
+        # exit(0)
         selected_player_hand = self.game.choose_hand('hands' + str(self.game.active_hand), p_value)
         if selected_player_hand == False:
             # Hand does not exist
@@ -199,6 +144,24 @@ class GoFish(tk.Frame):
         # print( 'selected_player_hand: ' + str(selected_player_hand))
         return(self.selected_player)
 
+    def submit_rank(self, r_value):
+        self.selected_rank = r_value
+        print(self.selected_rank)
+        # selected_card_rank =
+        return(self.selected_rank)
+
+    def choose_player(self):
+
+        selected_player = tk.StringVar()
+        selected_player.set("L")  # initialize
+        nx = 300
+        for i in range(0, self.player_count):
+            player = i
+            b = tk.Button(self, text="player " + str(i+1), command=lambda player=player: self.submit_player(player))
+
+            nx = nx + 75
+            b.place(x=nx, y=150)
+
     def choose_rank(self):
         rank_list = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K"]
         select_rank = tk.StringVar()
@@ -217,10 +180,7 @@ class GoFish(tk.Frame):
             button.config(state=state)
 
 
-    def submit_rank(self, r_value):
-        self.selected_rank = r_value
-        print(self.selected_rank)
-        return(self.selected_rank)
+
 
 
     def selected_suit(self, value):
@@ -278,8 +238,10 @@ class GoFish(tk.Frame):
     #
 
     def reveal(self):
-        h = self.game.hands['hands' + str(self.game.active_hand)]
+        h = self.game.hands['hands' + str(self.game.active_player_id)]
         hnd = h[0].get_hand()
+        hand = tk.Label(self, text=str(hnd), relief=tk.SUNKEN)
+        hand.place(x=350, y=400)
         print(hnd)
 
     def quit(self):

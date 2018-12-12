@@ -268,9 +268,9 @@ class Game(object):
         self._hands = []
         self._deck = []
         self._empty_hands = 0
-        self._active = 0
+        self._active = None
         self._sort = Sort.SUITTHENRANKD
-
+        self.active_player_id = 0
 
         """Instantiating properties"""
         if hand_size != 0 and type(hand_size) == int:
@@ -309,7 +309,6 @@ class Game(object):
                 temp_hands[name] = [hand, score]
             self._hands = temp_hands
 
-
     def control_players(self):
         """Executes main control flow for player turns
 
@@ -331,8 +330,8 @@ class Game(object):
                         choice = self.choose_hand(hand)
                         self.hands[hand][0].visi_override()
                         if rules.play_game(self.hands[hand][0], self.hands[choice][0]) == False:
-                            same_player = False
                             self.hands[hand][1] += rules.points
+                            same_player = False
                         else:
                             self.hands[hand][1] += rules.points
                             same_player = True
@@ -342,6 +341,14 @@ class Game(object):
             return hand
         except Exception as ex:
             print(ex)
+
+
+
+    def play(self, same_player = True, wincondition = False):
+        rules = Rules(self.deck, 0)
+        print(self.hands)
+        # self.active_hand
+        # rules.play_game(self.hands[hand][0], self.hands[choice][0])
 
 
 
@@ -363,6 +370,7 @@ class Game(object):
             for hand in self.hands:
                 print(str(hand) + " = " + str(self.hands[hand][0]) + " --- points = " + str(self.hands[hand][1]))
             # choice = int(input("Enter the index of the hand you would like to ask"))
+
             hand = "hands%s" % choice
             # print(hand)
             # print(active)

@@ -2,8 +2,8 @@ from tkinter import *
 import tkinter as tk
 from tkinter import messagebox
 
-from Game import *
-from Rules import *
+from Game_orig import *
+from Rules_orig import *
 from Enums.Sort_Methods import *
 
 class Root(tk.Tk):
