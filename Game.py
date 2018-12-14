@@ -278,6 +278,23 @@ class Game(object):
     def asked_player_hand(self, hand):
         self._asked_player_hand = hand
 
+    @property
+    def asked_rank(self):
+        return self._asked_rank
+
+    @asked_rank.setter
+    def asked_rank(self, rank):
+        self._asked_rank = rank
+
+    @property
+    def asked_rank_value(self):
+        return self._asked_rank_value
+
+    @asked_rank_value.setter
+    def asked_rank_value(self, rank_value):
+
+        self._asked_rank_value = rank_value
+
     def __init__(self, hand_size=0, hand_count=0, max_hand_size=0, ace_rank=None, discard_type=None, sort=None):
         """Initializes the game object"""
         self._init_hand_size = 0
@@ -294,6 +311,8 @@ class Game(object):
         self._asked_player_id = 0
         self._asked_player_hand = None
         self._asked_card_value = 0
+        self._asked_rank = None
+        self._asked_rank_value = 0
 
         """Instantiating properties"""
         if hand_size != 0 and type(hand_size) == int:
@@ -365,16 +384,6 @@ class Game(object):
         except Exception as ex:
             print(ex)
 
-
-
-    def play(self, same_player = True, wincondition = False):
-        rules = Rules(self.deck, 0)
-        print(self.hands)
-        # self.active_hand
-        # rules.play_game(self.hands[hand][0], self.hands[choice][0])
-
-
-
     def choose_hand(self, active, choice):
         """Gets the hand the player would like to request a card from
 
@@ -390,8 +399,8 @@ class Game(object):
         """
         ask = True
         while ask == True:
-            for hand in self.hands:
-                print(str(hand) + " = " + str(self.hands[hand][0]) + " --- points = " + str(self.hands[hand][1]))
+            # for hand in self.hands:
+                # print(str(hand) + " = " + str(self.hands[hand][0]) + " --- points = " + str(self.hands[hand][1]))
             # choice = int(input("Enter the index of the hand you would like to ask"))
 
             hand = "hands%s" % choice
@@ -410,8 +419,35 @@ class Game(object):
                 print(ValueError("Cannot ask for a hand which does not exist"))
                 return False
 
+    ####################
 
+    def ask(self, player_hand, card_rank):
+        """
+        @description
+            Checks if card_rank is in palyer_hand
+        @:attributes
+            player_hand - object of type Hand
+            rank - int. card rank
+        @return
+            answer - "YES" or "GOFISH"
+        """
+        player_hand.visi_override()
+        rules = Rules(self.deck, 0)
+        answer = rules.player_answer(rules.card_request(card_rank), player_hand)
+        if answer == "YES":
+            # print(rules.card_request(card_rank))
+            player_hand.remove_card(card = card_rank)
+            player_hand.visi_override()
+            self.asked_player_hand = player_hand
+        elif answer == "GOFISH":
+            pass
+        else:
+            pass
 
+        return answer
+    def play(self, request, p1_hand, p2_hand):
+        rules = Rules(self.deck, 0)
+        rules.card_request()
 # def main():
 #
 #     game = Game(hand_size=5,

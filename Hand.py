@@ -207,6 +207,8 @@ class Hand(object):
                 TypeError("TypeError: Either choose the index to remove OR the card to remove, both chosen"),
                 "Hand.remove_card")
         elif card != None:
+            print(self._cards)
+            print(card)
             self._cards.remove(card)
             self.__sort_cards()
         elif index != None:
@@ -431,31 +433,31 @@ class Discard_Pile(Hand):
         except:
             Error.log_error(sys.exc_info()[1], "Discard_Pile.__str__")
 
-
-def main():
-    print("Unit test: \n")
-    suite = unittest.TestLoader().loadTestsFromModule(HandTest)
-    unittest.TextTestRunner().run(suite)
-    hand = Hand(sort=Sort.RANKTHENSUITA)
-    card2 = Card(suit=Suit.DIAMONDS, rank=Rank.FIVE)
-    card3 = Card(suit=Suit.SPADES, rank=Rank.THREE)
-    card4 = Card(suit=Suit.DIAMONDS, rank=Rank.THREE)
-    card5 = Card(suit=Suit.CLUBS, rank=Rank.ACELOW)
-    card1 = Card(suit=Suit.DIAMONDS, rank=Rank.FIVE)
-    card6 = Card(suit=Suit.SPADES, rank=Rank.THREE)
-    card7 = Card(suit=Suit.DIAMONDS, rank=Rank.KING)
-    card8 = Card(suit=Suit.CLUBS, rank=Rank.ACELOW)
-    new_cards = [card2, card3, card4, card5]
-    newer = [card1, card6, card7, card8]
-    hand1 = Hand()
-    hand1.add_card(new_cards)
-    hand.add_card(newer)
-    print(hand.sort_type)
-    hand.visi_override()
-    print(hand1)
-    hand2 = hand1 + hand
-    print(hand2)
-
-
-if __name__ == '__main__':
-    main()
+#
+# def main():
+#     print("Unit test: \n")
+#     suite = unittest.TestLoader().loadTestsFromModule(HandTest)
+#     unittest.TextTestRunner().run(suite)
+#     hand = Hand(sort=Sort.RANKTHENSUITA)
+#     card2 = Card(suit=Suit.DIAMONDS, rank=Rank.FIVE)
+#     card3 = Card(suit=Suit.SPADES, rank=Rank.THREE)
+#     card4 = Card(suit=Suit.DIAMONDS, rank=Rank.THREE)
+#     card5 = Card(suit=Suit.CLUBS, rank=Rank.ACELOW)
+#     card1 = Card(suit=Suit.DIAMONDS, rank=Rank.FIVE)
+#     card6 = Card(suit=Suit.SPADES, rank=Rank.THREE)
+#     card7 = Card(suit=Suit.DIAMONDS, rank=Rank.KING)
+#     card8 = Card(suit=Suit.CLUBS, rank=Rank.ACELOW)
+#     new_cards = [card2, card3, card4, card5]
+#     newer = [card1, card6, card7, card8]
+#     hand1 = Hand()
+#     hand1.add_card(new_cards)
+#     hand.add_card(newer)
+#     print(hand.sort_type)
+#     hand.visi_override()
+#     print(hand1)
+#     hand2 = hand1 + hand
+#     print(hand2)
+#
+#
+# if __name__ == '__main__':
+#     main()

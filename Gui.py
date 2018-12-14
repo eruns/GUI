@@ -123,9 +123,10 @@ class GoFish(tk.Frame):
             print("Same Player")
         else:
             self.game.asked_player_id = p_value
-            self.game.asked_player_hand = self.game.hands['hands' + str(p_value)][0]
+            self.game.asked_player_hand = self.game.hands['hands' + str(self.game.asked_player_id)][0]
             self.game.active_hand.visi_override()
-        print(self.game.active_hand.card_count)
+            self.game.asked_player_hand.visi_override()
+        # print(self.game.active_hand.card_count)
         # exit(0)
         selected_player_hand = self.game.choose_hand('hands' + str(self.game.active_hand), p_value)
         if selected_player_hand == False:
@@ -147,10 +148,14 @@ class GoFish(tk.Frame):
         return(self.selected_player)
 
     def submit_rank(self, r_value):
-        self.selected_rank = r_value
-        print(self.selected_rank)
-        # selected_card_rank =
-        return(self.selected_rank)
+        self.game.asked_rank = r_value
+        print(self.game.asked_rank)
+
+        answer = self.game.ask(self.game.asked_player_hand, self.game.asked_rank)
+
+        print(answer)
+
+        return(self.game.asked_rank)
 
     def choose_player(self):
 
@@ -165,7 +170,7 @@ class GoFish(tk.Frame):
             b.place(x=nx, y=150)
 
     def choose_rank(self):
-        rank_list = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K"]
+        rank_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
         select_rank = tk.StringVar()
         select_rank.set(rank_list[0])
         self.rank_button_list = []
